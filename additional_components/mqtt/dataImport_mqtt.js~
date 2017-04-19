@@ -1,0 +1,52 @@
+// contoller.js and garage.js
+var mqtt = require('mqtt')
+var classification = require('./messageClassification_mqtt')
+var databaseControl = require('../dataBase/control_db')
+var client  = mqtt.connect('mqtt:localhost')
+
+databaseControl
+
+client.on('connect', function () {
+  client.subscribe('SH/#')
+  //client.publish('SH/test', 'Hello mqtt')
+})
+ 
+client.on('message', function (topic, message) {
+  
+  //step 1 Get DeviceHS
+  classification.GetDeviceHS(topic.toString(), function( error, deviceHS )  {
+    if ( error ) {
+      console.log( error );
+      return;
+    } else {
+      console.log( deviceHS );
+    }
+  })
+  //step 2 Get Data Type
+  classification.SaveMessageToDataBase(message.toString(), function( error, data )  {
+    if ( error ) {
+      console.log( error );
+      return;
+    } else {
+    //  console.log( data );
+    }
+  })
+
+/*
+  //step 2 Get Data Type
+  classification.GetItemData(message.toString(), "qqq", function( error, data )  {
+    if ( error ) {
+      console.log( error );
+      return;
+    } else {
+    //  console.log( data );
+    }
+  })
+*/
+
+
+
+
+
+  //client.end()
+})

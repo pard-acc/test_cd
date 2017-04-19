@@ -1,0 +1,53 @@
+var databaseControl = require( '../dataBase/control_db' )
+var searchItem = [ "Func", "Time", "Data", "Seq"];
+exports.SaveMessageToDataBase = function( topic, message, callback ) {
+    //step 1 Get DeviceHS
+    var deviceHS = this.GetDeviceHS( topic, function( error )  {
+      if( error ) {  
+        console.log( error );
+      }
+    })
+    //step 2 Get messageData
+    var itemData = this.GetItemData( message, searchItem, function( error, returnArray)  {
+      if( error ) {
+        console.log( error );
+      }
+    })
+    //step 2 Get messageData
+
+
+    console.log( deviceHS );
+    console.log( itemData );
+};
+
+exports.GetDeviceHS = function(topic, callback) {
+  try {
+    var topicArray = topic.split("/");
+    if(topicArray.length >= 2 ) {
+      callback && callback(null);
+      return topicArray[1];
+    } else {
+      throw "source topic is incorrect.";
+    }
+  }
+  catch (err) {
+    callback(err);
+  }
+};
+
+exports.GetItemData = function(message, searchItem, callback) {
+  try {
+    // String => Object
+    var returnArray = [];
+    var parsedstring = JSON.parse(message);
+    searchItem.forEach( function(item, i) {
+      var item = eval( "parsedstring." + item); //Performance issues ?
+      returnArray.push(item);
+    })
+    callback && callback(null); 
+    return returnArray;
+  }
+  catch (err) {
+    callback(err);
+  }
+};

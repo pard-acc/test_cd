@@ -1,0 +1,16 @@
+{"error":{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema."},"level":"error","message":"Error generating response. ParseError {\n  code: 255,\n  message: 'Class GameScore is not empty, contains 2 objects, cannot drop schema.' }","timestamp":"2017-04-13T08:31:55.244Z"}
+{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema.","level":"error","timestamp":"2017-04-13T08:31:55.274Z"}
+{"error":{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema."},"level":"error","message":"Error generating response. ParseError {\n  code: 255,\n  message: 'Class GameScore is not empty, contains 2 objects, cannot drop schema.' }","timestamp":"2017-04-13T08:32:02.097Z"}
+{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema.","level":"error","timestamp":"2017-04-13T08:32:02.104Z"}
+{"error":{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema."},"level":"error","message":"Error generating response. ParseError {\n  code: 255,\n  message: 'Class GameScore is not empty, contains 2 objects, cannot drop schema.' }","timestamp":"2017-04-13T08:32:16.790Z"}
+{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema.","level":"error","timestamp":"2017-04-13T08:32:16.795Z"}
+{"error":{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema."},"level":"error","message":"Error generating response. ParseError {\n  code: 255,\n  message: 'Class GameScore is not empty, contains 2 objects, cannot drop schema.' }","timestamp":"2017-04-13T08:32:22.340Z"}
+{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema.","level":"error","timestamp":"2017-04-13T08:32:22.350Z"}
+{"error":{"code":200,"message":"bad or missing username"},"level":"error","message":"Error generating response. ParseError { code: 200, message: 'bad or missing username' }","timestamp":"2017-04-13T10:30:07.970Z"}
+{"code":200,"message":"bad or missing username","level":"error","timestamp":"2017-04-13T10:30:07.974Z"}
+{"error":{"code":200,"message":"bad or missing username"},"level":"error","message":"Error generating response. ParseError { code: 200, message: 'bad or missing username' }","timestamp":"2017-04-13T10:30:10.091Z"}
+{"code":200,"message":"bad or missing username","level":"error","timestamp":"2017-04-13T10:30:10.094Z"}
+{"error":{"code":201,"message":"password is required"},"level":"error","message":"Error generating response. ParseError { code: 201, message: 'password is required' }","timestamp":"2017-04-13T10:30:20.645Z"}
+{"code":201,"message":"password is required","level":"error","timestamp":"2017-04-13T10:30:20.647Z"}
+{"error":{"code":111,"message":"ACL is required."},"level":"error","message":"Error generating response. ParseError { code: 111, message: 'ACL is required.' }","timestamp":"2017-04-13T10:30:49.921Z"}
+{"code":111,"message":"ACL is required.","level":"error","timestamp":"2017-04-13T10:30:49.926Z"}

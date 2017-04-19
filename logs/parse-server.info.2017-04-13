@@ -1,0 +1,17 @@
+{"functionName":"hello","params":{"score":1337,"playerName":"Sean Plott","cheatMode":false},"level":"info","message":"Ran cloud function hello for user undefined with:\n  Input: {\"score\":1337,\"playerName\":\"Sean Plott\",\"cheatMode\":false}\n  Result: \"Hi\"","timestamp":"2017-04-13T08:07:28.730Z"}
+{"error":{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema."},"level":"error","message":"Error generating response. ParseError {\n  code: 255,\n  message: 'Class GameScore is not empty, contains 2 objects, cannot drop schema.' }","timestamp":"2017-04-13T08:31:55.229Z"}
+{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema.","level":"error","timestamp":"2017-04-13T08:31:55.274Z"}
+{"error":{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema."},"level":"error","message":"Error generating response. ParseError {\n  code: 255,\n  message: 'Class GameScore is not empty, contains 2 objects, cannot drop schema.' }","timestamp":"2017-04-13T08:32:02.096Z"}
+{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema.","level":"error","timestamp":"2017-04-13T08:32:02.103Z"}
+{"error":{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema."},"level":"error","message":"Error generating response. ParseError {\n  code: 255,\n  message: 'Class GameScore is not empty, contains 2 objects, cannot drop schema.' }","timestamp":"2017-04-13T08:32:16.790Z"}
+{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema.","level":"error","timestamp":"2017-04-13T08:32:16.795Z"}
+{"error":{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema."},"level":"error","message":"Error generating response. ParseError {\n  code: 255,\n  message: 'Class GameScore is not empty, contains 2 objects, cannot drop schema.' }","timestamp":"2017-04-13T08:32:22.339Z"}
+{"code":255,"message":"Class GameScore is not empty, contains 2 objects, cannot drop schema.","level":"error","timestamp":"2017-04-13T08:32:22.350Z"}
+{"error":{"code":200,"message":"bad or missing username"},"level":"error","message":"Error generating response. ParseError { code: 200, message: 'bad or missing username' }","timestamp":"2017-04-13T10:30:07.966Z"}
+{"code":200,"message":"bad or missing username","level":"error","timestamp":"2017-04-13T10:30:07.974Z"}
+{"error":{"code":200,"message":"bad or missing username"},"level":"error","message":"Error generating response. ParseError { code: 200, message: 'bad or missing username' }","timestamp":"2017-04-13T10:30:10.086Z"}
+{"code":200,"message":"bad or missing username","level":"error","timestamp":"2017-04-13T10:30:10.094Z"}
+{"error":{"code":201,"message":"password is required"},"level":"error","message":"Error generating response. ParseError { code: 201, message: 'password is required' }","timestamp":"2017-04-13T10:30:20.644Z"}
+{"code":201,"message":"password is required","level":"error","timestamp":"2017-04-13T10:30:20.647Z"}
+{"error":{"code":111,"message":"ACL is required."},"level":"error","message":"Error generating response. ParseError { code: 111, message: 'ACL is required.' }","timestamp":"2017-04-13T10:30:49.917Z"}
+{"code":111,"message":"ACL is required.","level":"error","timestamp":"2017-04-13T10:30:49.926Z"}
