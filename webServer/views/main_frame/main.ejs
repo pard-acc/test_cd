@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head><% include head.ejs %>
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+</head>
+<body class="<%= classname %>" >
+<% include header.ejs %>
+<% include nav.ejs %>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-2 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="./">首頁<span class="sr-only">(current)</span></a></li>
+            <li><a href="./deviceMap">設備地圖</a></li>
+            <li><a href="./showTH">溫濕度分析</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">報表</a></li>
+            <li><a href="">排程</a></li>
+            <li><a href="">日誌</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-2 col-sm-offset-1 col-md-3 col-md-offset-2 main">
+              <% include content.ejs %>
+        </div>
+      </div>
+  </div>
+  <% include footer.ejs %>
+  <% include jsdefaults.ejs %>
+</body>
+</html>
+
+
+

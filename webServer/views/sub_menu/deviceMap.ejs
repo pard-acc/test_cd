@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAASZ3iKUlCBlIH9TX6ScqAHX-9Mo0p9QU&callback=initMap"></script>
+        <script type="text/javascript" src="deviceMap.js"></script>
+    </head>
+    <body onLoad="initialize()">
+        <p> 輸入地址<input id="address" type="text" size="50" value=""> <input type="button" value="查經緯度並在地圖上顯示" onClick="codeAddress()"> </p>
+        <div id="map" style="width:500px;height:300px;"></div>
+    </body>
+</html>
