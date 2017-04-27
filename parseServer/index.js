@@ -18,7 +18,7 @@ var api = new ParseServer({
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
   appId: process.env.APP_ID || '19453386',
   masterKey: process.env.MASTER_KEY || '1234', //Add your master key here. Keep it secret!
-  serverURL: process.env.SERVER_URL || 'http://192.168.1.2:1337/parse',  // Don't forget to change to https if needed
+  serverURL: process.env.SERVER_URL || 'http://192.168.1.3:1337/parse',  // Don't forget to change to https if needed
   liveQuery: {
     classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
   }
@@ -31,7 +31,7 @@ var dashboard = new ParseDashboard({ // TODO...
         // Parse Dashboard settings
   "apps": [
     {
-      "serverURL": "http://192.168.1.2:1337/parse",
+      "serverURL": "http://192.168.1.3:1337/parse",
       "appId": "19453386",
       "masterKey": "1234",
       "appName": "MyApp"

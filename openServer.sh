@@ -7,3 +7,4 @@ node ./webServer/app.js  &
 #開啟 pase server
 cd parseServer 
 npm run start
+

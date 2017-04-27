@@ -1,0 +1,2 @@
+{"error":{"code":111,"message":"schema mismatch for deviceList.components; expected Array but got Object"},"level":"error","message":"Error generating response. ParseError {\n  code: 111,\n  message: 'schema mismatch for deviceList.components; expected Array but got Object' }","timestamp":"2017-04-20T10:39:04.845Z"}
+{"code":111,"message":"schema mismatch for deviceList.components; expected Array but got Object","level":"error","timestamp":"2017-04-20T10:39:04.854Z"}

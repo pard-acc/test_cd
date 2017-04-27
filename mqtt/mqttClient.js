@@ -1,6 +1,8 @@
 // contoller.js and garage.js
+
 var mqtt = require('mqtt')
 var classification = require('./messageClassification_mqtt')
+var schedule = require('./timeProcess')
 var client  = mqtt.connect('mqtt:localhost')
 
 function OpenMqttClent() {
@@ -24,6 +26,7 @@ function OpenMqttClent() {
 
 exports.OpenMqttClent = function( ) {
     OpenMqttClent();
+    //schedule.OpenSchedule(client);
 }
- 
 OpenMqttClent();
+ schedule.OpenSchedule(client);
