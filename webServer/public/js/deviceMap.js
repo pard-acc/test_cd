@@ -1,101 +1,38 @@
-var headers = {
+//--------------------------------------
+var host = '192.168.1.3:1337';  //後端位置
+var headers = {                        //Parse Server API Key
     'X-Parse-Application-Id' :  '19453386',
     'X-Parse-REST-API-Key' : '1234',
     'Content-Type' : 'application/json'
 }
-//處理地圖顯示
+var gateway ='HS000000000009'; // 該帳號所屬 Gateway -> 暫時寫死
+//---------------------------------------
 var geocoder;
 var map, popup;
 var markers = [];
+
+var myStyles =[
+    {
+        featureType: "poi",
+        elementType: "labels",
+        stylers: [
+              { visibility: "off" }
+        ]
+    }
+];
+
 function initialize() {
   geocoder = new google.maps.Geocoder();
   popup = new google.maps.InfoWindow();
-  showDeviceList(deviceList);
+  showDeviceList();
   var latlng = new google.maps.LatLng(25.048215,121.517123);        // map center
   var mapOptions = {
     zoom: 18,
     center: latlng,
-    disableDoubleClickZoom: true
+    disableDoubleClickZoom: true,
+    styles: myStyles
   }
   map = new google.maps.Map(document.getElementById("map"), mapOptions);
-}
-
-/*
-function codeAddress() {
-  var address = document.getElementById("address").value;
-  geocoder.geocode( { 'address': address}, function(results, status) {
-    if (status == google.maps.GeocoderStatus.OK) {
-      map.setCenter(results[0].geometry.location);
-      document.getElementById("lat").value=results[0].geometry.location.lat();
-      document.getElementById("lng").value=results[0].geometry.location.lng();
-      var marker = new google.maps.Marker({
-          map: map,
-          position: results[0].geometry.location
-      });
-      showAddress(results[0], marker);
-    } else {
-      alert("Geocode was not successful for the following reason: " + status);
-    }
-  });
-}
-
-  // 設定 marker 的訊息泡泡
-function showAddress(result, marker) {
-      var popupContent = result.formatted_address;
-      popup.setContent(popupContent);
-      popup.open(map, marker);
-}
-  
-function getAddress() {
-      var xPosition = new google.maps.LatLng(document.getElementById("lat2").value, document.getElementById("lng2").value)
-      // 將經緯度透過 Google map Geocoder API 反查地址
-      geocoder.geocode({
-        'latLng': xPosition
-      }, function(results, status) {
-          if (status === google.maps.GeocoderStatus.OK) {
-              if (results) {
-                  document.getElementById("address2").value=results[0].formatted_address;
-                  alert("ADD: " + results[0].formatted_address);
-              }
-          } else {
-              alert("Reverse Geocoding failed because: " + status);
-          }
-      });
-}
-*/
-
-function getMarkList() {
-
-}
-
-function addMark(mark) {
-    var connectLights;
-    if (mark.connection == "Connection") {
-        connectLights = '#0000CC';
-    } else {
-        connectLights = '#666666'; 
-    }
-
-    var marker = new google.maps.Marker({
-        map: map,
-        title:mark.mac,
-        mac:mark.mac,
-        deviceType: mark.deviceType,
-        remarks:mark.remarks,
-        status:mark.status,
-        icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            fillColor: '#FFFFFF',
-            fillOpacity: 1,
-            strokeColor: connectLights,
-            strokeWeight: 3,
-            scale: 6
-        },
-        position: new google.maps.LatLng(mark.longitude, mark.latitude)
-    });
-    marker.addListener('click', clickMarker);
-    marker.addListener('dblclick', dblclickMarker);
-    markers.push(marker);
 }
 
 function clickMarker() {
@@ -104,7 +41,7 @@ function clickMarker() {
 }
 
 function dblclickMarker() {
-    openDevice(this);
+    switchDevice(this);
 }
 
 
@@ -118,16 +55,61 @@ function moveMapCenter(mac) {
     for (var i = 0; i < markers.length; i++) {
        if(markers[i].mac == mac) {
           map.panTo(markers[i].position);
-          popup.setContent(markers[i].remarks+" : "+ markers[i].status);
+          popup.setContent(markers[i].remarks);
           popup.open(map, markers[i]);
           break;
        }
     }
 }
 
-function showDeviceList(deviceList) {
+function createMarker(markerData) {
+    var connectLights;
+    var SwitchLights;
+    if (markerData["connectionStatus"] == "Connection") {
+        connectLights = '#0000CC';
+    } else {
+        connectLights = '#666666'; 
+    }
+
+    if (markerData["status"] == "true") {
+        SwitchLights = '#EEEE00';
+    } else {
+        SwitchLights = '#666666'; 
+    }
+
+    var marker = new google.maps.Marker({
+        map: map,
+        title:markerData["mac"],
+        mac:markerData["mac"],
+        deviceType: markerData.deviceType,
+        remarks:markerData["remarks"],
+        status:markerData["status"],
+        connectionStatus:markerData["connectionStatus"],
+        icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: SwitchLights,
+            fillOpacity: 1,
+            strokeColor: connectLights,
+            strokeWeight: 3,
+            scale: 6
+        },
+        position: new google.maps.LatLng(markerData["longitude"], markerData["latitude"])
+    });
+    return marker;
+}
+
+function addMarker(marker) {
+    marker.addListener('click', clickMarker);
+    if (marker.connectionStatus == 'Connection') {
+        marker.addListener('dblclick', dblclickMarker);
+    }
+    markers.push(marker);
+}
+
+function showDeviceList() {
+  markers=[];
   $.ajax({
-      url: "http://192.168.1.3:1337/parse/classes/deviceList",
+      url: 'http://'+host+'/parse/classes/deviceList',
       type: 'get',
       contentType: "application/json;",
       headers: headers,
@@ -137,20 +119,10 @@ function showDeviceList(deviceList) {
           var markList = new Array(NumOfJData);
 
           for (var i = 0; i < NumOfJData; i++) {
-              var index = deviceList.options.length;
-              deviceList.options[index] = new Option(data["results"][i]["mac"]+" "+data["results"][i]["deviceType"], data["results"][i]["mac"]);
-              deviceList.selectedIndex = index;
-              var mark = 
-              {
-                  "mac"              :data["results"][i]["mac"],
-                  "deviceType"  :data["results"][i]["deviceType"],
-                  "latitude"        :data["results"][i]["latitude"],
-                  "longitude"     :data["results"][i]["longitude"],
-                  "remarks"       :data["results"][i]["remarks"],
-                  "connection"  :data["results"][i]["connectionStatus"],
-                  "status"           :data["results"][i]["status"]
-              }
-              addMark(mark);
+              deviceList.options[i] = new Option(data["results"][i]["mac"]+" "+data["results"][i]["deviceType"], data["results"][i]["mac"]);
+              deviceList.selectedIndex = i;
+              var marker =  createMarker(data["results"][i]);
+              addMarker(marker);
           }
           setMapOnAll();
       },
@@ -160,44 +132,37 @@ function showDeviceList(deviceList) {
   });
 }
 
-function openDevice(marker) {
+//-----
+//點擊設備切換開及關
+//-----
+function switchDevice(marker) {
+  var command;
+  if(marker.status == "false") {
+    command = "open";
+  } 
+  else
+  {
+    command = "close";
+  }
+
   var josnStr = {
-      "targetGateway": "HS000000000009",
+      "targetGateway": gateway,
       "targetDevice": marker.mac,
       "deviceType": marker.deviceType,
       "processingState": "wait",
-      "command": "open"
+      "command": command
     };
   $.ajax({
-      url: "http://192.168.1.3:1337/parse/classes/cacheCommand",
+      url: 'http://'+host+'/parse/classes/cacheCommand',
       type: 'post',
       headers: headers,
       data : JSON.stringify(josnStr),
       success:function (status) {
-          alert("OK");
+          setTimeout('showDeviceList()',1000);
+          alert(marker.deviceType + ' : ' + marker.mac + ' : ' + command);
       },
       error: function(data, textStatus, errorThrown){
           alert("ERROR");
       }
   });
-}
-
-function get() { 
-    $.ajax({
-        url: "http://192.168.1.3:1337/parse/classes/cacheCommand",
-        type: 'get',
-        contentType: "application/json;",
-        headers: headers,
-        data: 'where={"gatewayNumber":"HS000000000009"}',
-        success:function (data, textStatus, status) {
-          if (data["results"].length == 0) {
-               alert("0");
-          }else{
-              alert("1");
-          }
-        },
-        error: function(data, textStatus, errorThrown){
-            alert("ERROR");
-        }
-    });
 }

@@ -84,27 +84,10 @@ UpdateDeviceInformation = function(Parameter, callback) {
             console.log('err : '+ err);
         } else {
             data = JSON.parse(data);
-            //console.log( data['results'][0]['objectId']);
-            /*
-            apiUrl = 'http://localhost:1337/parse/classes/deviceList/'+data['results'][0]['objectId'];
-            parameter = '{"status": [{"joe schmoe"}]}';
-            request.put( apiUrl, {
-                headers : headers,
-                body: parameter
-            }, function(err, res, data) {
-                if(err) {  
-                    console.log('err : '+ err);
-                }
-                else {
-                     console.log('-------111-----');
-               //     console.log(JSON.stringify(ParameterList));
-                     
-                }
-            });
-                
-                /*
+           // console.log( data['results'][0]['objectId']);
+            if( item == 'StateOnOff') {
                 apiUrl = 'http://localhost:1337/parse/classes/deviceList/'+data['results'][0]['objectId'];
-                parameter = '{"returnData":"{str132:123, str1:2}"}';
+                parameter = '{"status":"'+Parameter['Value']+'"}';
                 request.put( apiUrl, {
                     headers : headers,
                     body: parameter
@@ -113,12 +96,13 @@ UpdateDeviceInformation = function(Parameter, callback) {
                         console.log('err : '+ err);
                     }
                     else {
-                         console.log('-------111-----');
-                   //      console.log(JSON.stringify(ParameterList));
-                         
+                        console.log('------------');
+                        console.log( Parameter['Name']);
+                        console.log( 'StateOnOff : '+Parameter['Value']);
+                   //     console.log(JSON.stringify(ParameterList));
                     }
                 });
-                */
+            }
         }
     });
 }

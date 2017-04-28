@@ -7,7 +7,7 @@
 var rule = new schedule.RecurrenceRule();
 var times = [];
 for(var i=1; i<60; i++){
-    if( i % 2 == 0) {
+    if( i % 1 == 0) {
         times.push(i);
         //console.log("i = "+i);
     }
@@ -129,8 +129,6 @@ GetDeviceID= function(mac, callback) {
         }
     });
 }
-
-
 
 GetDataToRestfulAPI = function(apiUrl, callback) {
     request.get( apiUrl, {
