@@ -1,2 +1,7 @@
-1. 設定 mqtt/email 新增 gmail 帳密
-2. 開啟 openServer.sh
+----------------------------
+2017/05/08
+
+1. 新增 config.json 統一設定 client 及 server IP (更新版本不要替換此檔即可保留個人設定)
+2. 將 mqtt client 轉送功能簡化, 訊息只轉送不做處理. （mqttClient＋timeProcess）
+3. 新增 mainLogic 資料夾集中存放事件處理主邏輯程序.（依定時檢查檢查資料庫資料觸發各種事件處理）
+----------------------------

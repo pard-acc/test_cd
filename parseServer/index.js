@@ -1,6 +1,6 @@
 // Example express application adding the parse-server module to expose Parse
 // compatible API routes.
-
+var config = require('../config');
 var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 var ParseDashboard = require('parse-dashboard'); 
@@ -14,11 +14,11 @@ if (!databaseUri) {
 }
 
 var api = new ParseServer({
-  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
+  databaseURI: databaseUri || 'mongodb://'+config.DatabaseUri,
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
-  appId: process.env.APP_ID || '19453386',
-  masterKey: process.env.MASTER_KEY || '1234', //Add your master key here. Keep it secret!
-  serverURL: process.env.SERVER_URL || 'http://192.168.1.3:1337/parse',  // Don't forget to change to https if needed
+  appId: process.env.APP_ID || config.ParseApplicationID,
+  masterKey: process.env.MASTER_KEY || config.ParseServerKey, //Add your master key here. Keep it secret!
+  serverURL: process.env.SERVER_URL || 'http://' + config.ParseServerIP + ':' + config.ParseServerPort + '/parse',  // Don't forget to change to https if needed
   liveQuery: {
     classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
   }
@@ -31,16 +31,16 @@ var dashboard = new ParseDashboard({ // TODO...
         // Parse Dashboard settings
   "apps": [
     {
-      "serverURL": "http://192.168.1.3:1337/parse",
-      "appId": "19453386",
-      "masterKey": "1234",
+      "serverURL": "http://"+ config.ParseServerIP + ":" + config.ParseServerPort + "/parse",
+      "appId": config.ParseApplicationID,
+      "masterKey":  config.ParseServerKey,
       "appName": "MyApp"
     }
   ],
   "users": [
     {
-      "user":"pard",
-      "pass":"pard"
+      "user": config.DashboardUser,
+      "pass": config.DashboardPass
     }
   ]
 }, allowInsecureHTTP);
@@ -73,10 +73,10 @@ app.get('/test', function(req, res) {
 console.log("app.mountPath="+app.mountPath);
 console.log("app.APP_ID="+app.APP_ID);
 
-var port = process.env.PORT || 1337;
+var port = process.env.PORT ||  config.ParseServerPort;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
-    console.log('parse-server-example running on port ' + port + '.');
+    console.log('parse-server-example running on port ' + config.ParseServerPort + '.');
 });
 
 // This will enable the Live Query real-time server

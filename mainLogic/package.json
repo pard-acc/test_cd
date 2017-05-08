@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "start": "node timeProcess_createEventCommand.js"
+  }
+}

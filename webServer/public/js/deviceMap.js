@@ -153,7 +153,7 @@ function switchDevice(marker) {
       "command": command
     };
   $.ajax({
-      url: 'http://'+host+'/parse/classes/cacheCommand',
+      url: 'http://'+host+'/parse/classes/eventList',
       type: 'post',
       headers: headers,
       data : JSON.stringify(josnStr),
