@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAASZ3iKUlCBlIH9TX6ScqAHX-9Mo0p9QU"></script>
+        <script type="text/javascript" src="deviceMap.js"></script>
+        <script src="jquery-3.2.1.min.js"></script>
+    </head>
+    <body onLoad="initialize()">
+        <p><!-- 輸入地址
+            <input id="address" type="text" size="50" value="">
+            <input type="button" value="查詢地點" onClick="codeAddress()" >
+             -->
+            <select id="deviceList" onchange="moveMapCenter(deviceList.value)""></select>
+            <!-- 經度--><input id="lat" type="hidden" value="">  
+            <!-- 緯度--><input id="lng" type="hidden"  value="">
+        </p>
+        <div id="map" style="width:500px; height:300px;"></div>
+    </body>
+</html>

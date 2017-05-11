@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>jQuery MiniColors</title>
+  <!-- jQuery -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <!-- MiniColors -->
+  <script src="jquery.minicolors.js"></script>
+  <link rel="stylesheet" href="jquery.minicolors.css">
+  <script>
+    $(document).ready( function() {
+      $('.demo').each( function() {
+        $(this).minicolors({
+      
+          change: function(value, opacity) {
+            if( !value ) return;
+            if( opacity ) value += ', ' + opacity;
+            if( typeof console === 'object' ) {
+              console.log(value);
+            }
+          },
+          theme: 'bootstrap'
+        });
+
+      });
+
+    });
+  </script>
+</head>
+<body>
+      <input type="hidden" id="hidden-input" class="demo" value="#db913d">
+</body>
+</html>

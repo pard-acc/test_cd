@@ -1,0 +1,94 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "@claviska/jquery-minicolors",
+        "scope": "@claviska",
+        "escapedName": "@claviska%2fjquery-minicolors",
+        "name": "@claviska/jquery-minicolors",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/home/pard"
+    ]
+  ],
+  "_from": "@claviska/jquery-minicolors@latest",
+  "_id": "@claviska/jquery-minicolors@2.2.6",
+  "_inCache": true,
+  "_location": "/@claviska/jquery-minicolors",
+  "_nodeVersion": "7.0.0",
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/jquery-minicolors-2.2.6.tgz_1492790184182_0.5411682378035039"
+  },
+  "_npmUser": {
+    "name": "claviska",
+    "email": "cory@abeautifulsite.net"
+  },
+  "_npmVersion": "3.10.8",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "@claviska/jquery-minicolors",
+    "scope": "@claviska",
+    "escapedName": "@claviska%2fjquery-minicolors",
+    "name": "@claviska/jquery-minicolors",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@claviska/jquery-minicolors/-/jquery-minicolors-2.2.6.tgz",
+  "_shasum": "00b4c1e4e31e4da483501785d5c2ed3fccfdedc9",
+  "_shrinkwrap": null,
+  "_spec": "@claviska/jquery-minicolors",
+  "_where": "/home/pard",
+  "author": {
+    "name": "Cory LaViska"
+  },
+  "bugs": {
+    "url": "https://github.com/claviska/jquery-minicolors/issues"
+  },
+  "dependencies": {
+    "jquery": ">= 1.7.x"
+  },
+  "description": "jQuery MiniColors Plugin",
+  "devDependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-help": "^1.6.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.3"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "00b4c1e4e31e4da483501785d5c2ed3fccfdedc9",
+    "tarball": "https://registry.npmjs.org/@claviska/jquery-minicolors/-/jquery-minicolors-2.2.6.tgz"
+  },
+  "gitHead": "a1eb8807c3dba209b26cc36ad3ab1ac57f8fc39f",
+  "homepage": "https://github.com/claviska/jquery-minicolors",
+  "keywords": [
+    "jquery",
+    "colorpicker"
+  ],
+  "license": "MIT",
+  "main": "jquery.minicolors.js",
+  "maintainers": [
+    {
+      "name": "claviska",
+      "email": "cory@abeautifulsite.net"
+    }
+  ],
+  "name": "@claviska/jquery-minicolors",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/claviska/jquery-minicolors.git"
+  },
+  "scripts": {},
+  "version": "2.2.6"
+}
