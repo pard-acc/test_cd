@@ -4,22 +4,22 @@ var parseInterface = require('../general/parseInterface');
 var server = config.ParseServerIP+":"+config.ParseServerPort;
 var rule = new schedule.RecurrenceRule();
 var times = [];
-for(var i=1; i<60; i++) {
-    if( i % 1 == 0) {
+for (var i = 1; i < 60; i += 1) {
+    if (i % 1 === 0) {
         times.push(i);
     }
 }
 rule.second = times;
 
-getUntreatedEvent = function(callback) { 
+getUntreatedEvent = function (callback) { 
     var parameter = 'where={"processingState":"wait"}';
-    var apiUrl = 'http://'+server+'/parse/classes/eventList?' + parameter;
-    parseInterface.getDataFromRestfulAPI(apiUrl, function(error, data)  {
-        if(error) {  
+    var apiUrl = 'http://' + server + '/parse/classes/eventList?' + parameter;
+    parseInterface.getDataFromRestfulAPI(apiUrl, function (error, data)  {
+        if (error) {  
             console.log('error : '+ error);
         } else {
             data = JSON.parse(data);
-            if(data['results'].length > 0) {
+            if (data['results'].length > 0) {
                 console.log('------------');
                 console.log( data['results'].length);
                 console.log('------------');
@@ -27,31 +27,31 @@ getUntreatedEvent = function(callback) {
             }
         }
     });
-}
+};
 
-createEventCommand = function(event, callback) {
-    switch(event.eventType) {
+createEventCommand = function (event, callback) {
+    switch (event.eventType) {
         case 'change device state':
-            setChangeDeviceStateCommand(event, function(error) {
-                if(error) { 
-                    console.log("event error : "+ error);
+            setChangeDeviceStateCommand(event, function (error) {
+                if (error) { 
+                    console.log("event error : " + error);
                 } else {
-                    console.log("Event Command Creation : "+event.objectId);
+                    console.log("Event Command Creation : " + event.objectId);
                 }
             });
         break;
         default :
             callback && callback("無法處理的事件.");
         }
-}
+};
 
-setChangeDeviceStateCommand = function( event, callback) {
-    console.log( 'targetGateway : '+ event.eventContent.targetGateway);
-    console.log( 'targetDevice : '+ event.eventContent.targetDevice);
-    console.log( 'status : '+ event.eventContent.status);
-    var topic = "SH/"+event.eventContent.targetGateway;
+setChangeDeviceStateCommand = function ( event, callback) {
+    console.log( 'targetGateway : ' + event.eventContent.targetGateway);
+    console.log( 'targetDevice : ' + event.eventContent.targetDevice);
+    console.log( 'status : ' + event.eventContent.status);
+    var topic = "SH/" + event.eventContent.targetGateway;
     var func, time, replyId, seq, data, item, value;
-    switch(event.eventContent.status) {
+    switch (event.eventContent.status) {
         case 'open':
             topic +=  "/reqTo/sc"
             func = "SetParameterValues";
@@ -68,7 +68,7 @@ setChangeDeviceStateCommand = function( event, callback) {
     time = getNewDate();
     replyId = "SmartHomeManagementServer";
     seq = getRandom();
-    getDeviceID(event.eventContent.targetDevice, function(error, deviceID)  {
+    getDeviceID(event.eventContent.targetDevice, function (error, deviceID)  {
         data = {
             "ParameterList" : 
             [
@@ -87,14 +87,14 @@ setChangeDeviceStateCommand = function( event, callback) {
             Data: data
         }
         
-        sendCommandToParse(topic, mqttCommand, event.objectId, function(error) {
+        sendCommandToParse(topic, mqttCommand, event.objectId, function (error) {
             callback(error);
         });
-    })
-}
+    });
+};
 
-sendCommandToParse = function(topic, mqttCommand, event_objectId, callback) {
-    var apiUrl = 'http://'+server+'/parse/classes/cacheCommand';
+sendCommandToParse = function (topic, mqttCommand, event_objectId, callback) {
+    var apiUrl = 'http://' + server + '/parse/classes/cacheCommand';
     var data = {
         topic : topic,
         state : "wait",
@@ -102,41 +102,41 @@ sendCommandToParse = function(topic, mqttCommand, event_objectId, callback) {
         mqttCommand: JSON.stringify(mqttCommand),
         event_objectId : event_objectId
     }
-    parseInterface.postDataToRestfulAPI(apiUrl, data, function(error, reply) {
-        if(error) {  
+    parseInterface.postDataToRestfulAPI(apiUrl, data, function (error, reply) {
+        if (error) {  
             callback(error);
         }
         else {
             updateStatus(event_objectId, 'Wait Sent');
             callback(null);
         }
-    })
-}
+    });
+};
 
-updateStatus = function(objectId, processingState ,callback) {
-    var parameter = '{"processingState":"'+processingState+'"}';
-    var apiUrl = 'http://'+server+'/parse/classes/eventList/'+objectId;
-    parseInterface.putDataToRestfulAPI(apiUrl, parameter, function(error, data)  {
-        if(error) {  
-            console.log('err : '+ err);
+updateStatus = function (objectId, processingState ,callback) {
+    var parameter = '{"processingState":"' + processingState + '"}';
+    var apiUrl = 'http://' + server + '/parse/classes/eventList/' + objectId;
+    parseInterface.putDataToRestfulAPI(apiUrl, parameter, function (error, data)  {
+        if (error) {
+            console.log('err : ' + err);
         } else {
-            console.log(objectId +" : " + data);
+            console.log(objectId + " : " + data);
         }
     });
-}
+};
 
-getDeviceID= function(mac, callback) {
-    var parameter = 'where={"mac":"'+mac+'"}';
-    var apiUrl = 'http://'+server+'/parse/classes/deviceList?' + parameter;
-    parseInterface.getDataFromRestfulAPI(apiUrl, function(error, data)  {
-        if(error) {  
+getDeviceID = function (mac, callback) {
+    var parameter = 'where={"mac":"' + mac + '"}';
+    var apiUrl = 'http://' + server + '/parse/classes/deviceList?' + parameter;
+    parseInterface.getDataFromRestfulAPI(apiUrl, function (error, data)  {
+        if (error) {  
             callback(error);
         } else {
             data = JSON.parse(data);
             callback && callback(null, data['results'][0].deviceID);
         }
     });
-}
+};
 
 function getNewDate() {
     var tdate = new Date();
@@ -157,8 +157,8 @@ function getRandom() {
     return n;
 }
 
-openSchedule= function() {
-    var j = schedule.scheduleJob(rule, function(){
+openSchedule = function () {
+    var j = schedule.scheduleJob(rule, function () {
         getUntreatedEvent();
     });
 }

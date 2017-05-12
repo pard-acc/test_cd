@@ -22,7 +22,7 @@ function openWebServer() {
 
 exports.openWebServer = function( ) {
     openWebServer();
-}
+};
 
 openWebServer();
 

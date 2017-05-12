@@ -2,20 +2,23 @@ function initialize() {
     initializeMap(25.048215,121.517123);
     getGroupList();
     showDevice();
-    $(document).ready( function() {
-        $('.groupColor').each( function() {
+    $(document).ready(function () {
+        $('.groupColor').each(function () {
             $(this).minicolors({
-                change: function(value, opacity) {
-                    if( !value ) return;
-                    if( opacity ) value += ', ' + opacity;
-                    if( typeof console == 'object' ) {
+                change: function (value, opacity) {
+                    if (! value) {
+                        return;
+                    }
+                    if (opacity) {
+                        value += ', ' + opacity;
+                    }
+                    if (typeof console === 'object' ) {
                         console.log(value);
                     }
                 }
             });
         });
     });
-    
 }
 
 function leftClickMarker() {
@@ -24,7 +27,7 @@ function leftClickMarker() {
 }
 
 function rightClickMarker() {
-     if(this.select == false) {
+     if (this.select === false) {
         this.icon.strokeColor = '#CC0000';
         this.select = true;
      } else {
@@ -41,24 +44,24 @@ function createMarker(markerData) {
     switchLights = '#EEEE00';
 
     var marker = new google.maps.Marker({
-        map: map,
-        draggable:true,
-        title:markerData["mac"],
-        mac:markerData["mac"],
-        deviceType: markerData.deviceType,
-        remarks:markerData["remarks"],
-        status:markerData["status"],
-        connectionStatus:markerData["connectionStatus"],
-        select:false,
-        icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            fillColor: switchLights,
-            fillOpacity: 1,
-            strokeColor: connectLights,
-            strokeWeight: 3,
-            scale: 6
+        map : map,
+        draggable : true,
+        title : markerData["mac"],
+        mac : markerData["mac"],
+        deviceType : markerData.deviceType,
+        remarks : markerData["remarks"],
+        status : markerData["status"],
+        connectionStatus : markerData["connectionStatus"],
+        select : false,
+        icon : {
+            path : google.maps.SymbolPath.CIRCLE,
+            fillColor : switchLights,
+            fillOpacity : 1,
+            strokeColor : connectLights,
+            strokeWeight : 3,
+            scale : 6
         },
-        position: new google.maps.LatLng(markerData["longitude"], markerData["latitude"])
+        position : new google.maps.LatLng(markerData["longitude"], markerData["latitude"])
     });
     return marker;
 }
@@ -70,15 +73,15 @@ function addMarker(marker) {
 }
 
 function showDevice() {
-    sendGetRequestToREST("deviceList","", function(error, data, textStatus, status) {
-        if(error) {
+    sendGetRequestToREST("deviceList","", function (error, data, textStatus, status) {
+        if (error) {
             alert("error : " + error);
         } else {
             var liststr = '';
             var NumOfJData = data['results'].length;
             var markList = new Array(NumOfJData);
             clearMarkers();
-            for (var i = 0; i < NumOfJData; i++) {
+            for (var i = 0; i < NumOfJData; i += 1) {
                 var marker =  createMarker(data["results"][i]);
                 addMarker(marker);
             }
@@ -88,16 +91,17 @@ function showDevice() {
 }
 
 function getGroupList() {
-    sendGetRequestToREST("groupList","", function(error, data, textStatus, status) {
-        if(error) { 
+    sendGetRequestToREST("groupList","", function (error, data, textStatus, status) {
+        if (error) { 
             alert("error : " + error);
         } else {
+            groupList.options = [];
             var numOfJData = data['results'].length;
-            if(numOfJData == 0) {
+            if (numOfJData === 0) {
                     groupList.options[0] = new Option("Have Not Group");
                     groupList.selectedIndex = 0;
             } else {
-                for (var i = 0; i < numOfJData; i++) {
+                for (var i = 0; i < numOfJData; i += 1) {
                     groupList.options[i] = new Option(data["results"][i]["groupName"]);
                     groupList.options[i].value = data["results"][i]["objectId"];
                     groupList.selectedIndex = i;
@@ -109,9 +113,9 @@ function getGroupList() {
 
 function addGroup() {
     var groupName = prompt("輸入 Group 名稱","");
-    if( groupName != null) {
+    if (groupName !== null) {
         groupName = groupName.trim();
-        if( groupName != "" ) {
+        if (groupName !== "" ) {
             var groupInformation = {
                 groupName : groupName,
                 groupColor : $(".groupColor").val(),
@@ -119,16 +123,16 @@ function addGroup() {
                 ],
             };
 
-            for( i=0; i<markers.length;i++) {
-                if(markers[i].select == true) {
+            for(var i = 0; i < markers.length; i += 1) {
+                if (markers[i].select === true) {
                     groupInformation.groupMember.push(markers[i].mac);
                 }
             }
-            sendPostRequestToREST("groupList", groupInformation, function(error, data, textStatus, status) { 
-                if(error) { 
+            sendPostRequestToREST("groupList", groupInformation, function (error, data, textStatus, status) { 
+                if (error) { 
                     alert("error : " + error);
                 } else {
-                    alert(groupName +"設定成功.");
+                    alert(groupName + "設定成功.");
                     getGroupList();
                 }
             });
@@ -137,24 +141,36 @@ function addGroup() {
 }
 
 function updateGroup() {
-    var groupID='';
+    var groupID = "";
     var groupInformation = {
         groupColor : $(".groupColor").val(),
         groupMember : [
         ],
     };
 
-    for( i=0; i<markers.length;i++) {
-        if(markers[i].select == true) {
+    for(var i = 0; i < markers.length; i += 1) {
+        if (markers[i].select === true) {
             groupInformation.groupMember.push(markers[i].mac);
         }
     }
-    sendPutRequestToREST("groupList/"+groupList.value, groupInformation, function(error, data, textStatus, status) { 
-        if(error) { 
+
+    sendPutRequestToREST("groupList" , groupList.value, groupInformation, function (error, data, textStatus, status) { 
+        if (error) { 
             alert("error : " + error);
         } else {
             alert("更新成功.");
         }
     });
-    
+}
+
+function deleteGroup() {
+    sendDeleteRequestToREST("groupList", groupList.value, function (error, data, textStatus, status) { 
+        if (error) { 
+            alert("error : " + error);
+        } else {
+            alert("刪除成功.");
+            groupList.options[groupList.selectedIndex] = null;
+            getGroupList();
+        }
+    });
 }
