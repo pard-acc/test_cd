@@ -1,25 +1,24 @@
 function initialize() {
     initializeMap(25.048215,121.517123);
     getGroupList();
-    /*
+    showDevice();
     $(document).ready( function() {
-        $('.demo').each( function() {
+        $('.groupColor').each( function() {
             $(this).minicolors({
                 change: function(value, opacity) {
                     if( !value ) return;
                     if( opacity ) value += ', ' + opacity;
-                    if( typeof console === 'object' ) {
+                    if( typeof console == 'object' ) {
                         console.log(value);
                     }
                 }
             });
         });
     });
-    */
+    
 }
 
 function leftClickMarker() {
-    //moveMapCenter(this.mac);
     popup.setContent(this.remarks);
     popup.open(map, this);
 }
@@ -97,10 +96,10 @@ function getGroupList() {
             if(numOfJData == 0) {
                     groupList.options[0] = new Option("Have Not Group");
                     groupList.selectedIndex = 0;
-                    showDevice();
             } else {
                 for (var i = 0; i < numOfJData; i++) {
-                    groupList.options[i] = new Option(data["results"][i]["mac"]+" "+data["results"][i]["deviceType"], data["results"][i]["mac"]);
+                    groupList.options[i] = new Option(data["results"][i]["groupName"]);
+                    groupList.options[i].value = data["results"][i]["objectId"];
                     groupList.selectedIndex = i;
                 }
             }
@@ -108,34 +107,54 @@ function getGroupList() {
     });
 }
 
-function setGroup() {
+function addGroup() {
     var groupName = prompt("輸入 Group 名稱","");
     if( groupName != null) {
         groupName = groupName.trim();
         if( groupName != "" ) {
-            alert(groupName +"設定成功." + $(".groupColor").val());
+            var groupInformation = {
+                groupName : groupName,
+                groupColor : $(".groupColor").val(),
+                groupMember : [
+                ],
+            };
+
+            for( i=0; i<markers.length;i++) {
+                if(markers[i].select == true) {
+                    groupInformation.groupMember.push(markers[i].mac);
+                }
+            }
+            sendPostRequestToREST("groupList", groupInformation, function(error, data, textStatus, status) { 
+                if(error) { 
+                    alert("error : " + error);
+                } else {
+                    alert(groupName +"設定成功.");
+                    getGroupList();
+                }
+            });
         }
     }
 }
 
-function saveCoordinates() {
+function updateGroup() {
+    var groupID='';
+    var groupInformation = {
+        groupColor : $(".groupColor").val(),
+        groupMember : [
+        ],
+    };
 
-  /*
-    var s="", longitude, latitude;
-    var t="";
-    alert('XXXX : '+markers[0].position.lng());
-    alert('XXXX : '+markers[0].position.lat());
-    */
-   // showDevice();
-  /*
-    for (var i = 0; i < markers.length; i++) {
-          longitude = s[0];
-          latitude = s[1];
-          t +=  markers[i].mac + " "+longitude+" : "+latitude;
-          t += "\n";
+    for( i=0; i<markers.length;i++) {
+        if(markers[i].select == true) {
+            groupInformation.groupMember.push(markers[i].mac);
+        }
     }
-    sendRequest();
-    alert('t : '+t);
-    */
+    sendPutRequestToREST("groupList/"+groupList.value, groupInformation, function(error, data, textStatus, status) { 
+        if(error) { 
+            alert("error : " + error);
+        } else {
+            alert("更新成功.");
+        }
+    });
     
 }
